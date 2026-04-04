@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap');
+@import 'tailwindcss';
+
+@theme {
+	/* Fonts */
+	--font-display: 'DM Sans', sans-serif;
+	--font-body: 'Inter', sans-serif;
+	--font-mono: 'JetBrains Mono', monospace;
+
+	/* Colors — text */
+	--color-flo-primary: #2d2b3d;
+	--color-flo-body: #7a769a;
+	--color-flo-muted: #a8a4c0;
+	--color-flo-faint: #c0bcda;
+	--color-flo-done: #c0bcda;
+
+	/* Colors — backgrounds */
+	--color-bg-base: #fafaf8;
+	--color-bg-surface: #f0eef8;
+	--color-bg-subtle: #eae8f2;
+
+	/* Colors — borders */
+	--color-border-soft: #eae8f2;
+	--color-border-medium: #d8d4ed;
+
+	/* Colors — semantic */
+	--color-accent: #c8c4e8;
+	--color-accent-strong: #7a769a;
+	--color-success: #7ec8a4;
+	--color-warn: #e8c170;
+	--color-danger: #e89090;
+
+	/* Colors — tags */
+	--color-tag-work-bg: #eae8f2;
+	--color-tag-work-text: #7a769a;
+	--color-tag-health-bg: #e8f2ee;
+	--color-tag-health-text: #6a9a85;
+	--color-tag-personal-bg: #f2eaf0;
+	--color-tag-personal-text: #9a7a90;
+
+	/* Spacing */
+
+	--spacing-10: 2.5rem;
+	--spacing-8: 2rem;
+	--spacing-6: 1.5rem;
+	--spacing-5: 1.25rem;
+	--spacing-4: 1rem;
+	--spacing-3: 0.75rem;
+	--spacing-2: 0.5rem;
+	--spacing-1: 0.25rem;
+}
+
+@layer base {
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+	}
+
+	html,
+	body {
+		height: 100%;
+	}
+
+	body {
+		font-family: var(--font-body);
+		background: var(--color-bg-base);
+		color: var(--color-flo-primary);
+		-webkit-font-smoothing: antialiased;
+	}
+}
