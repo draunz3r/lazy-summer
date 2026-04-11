@@ -1,7 +1,22 @@
 <script>
-	import { completeTask } from '$lib/store/tasks';
+	import { completeTask, deleteTask } from '$lib/store/tasks';
 	import { slide } from 'svelte/transition';
+	import { onMount, onDestroy } from 'svelte';
+	import { MoreHorizontal } from 'lucide-svelte';
 	let { task } = $props();
+	let menuOpen = $state(false);
+
+	function handleOutsideClick() {
+		if (menuOpen) menuOpen = false;
+	}
+
+	onMount(() => {
+		document.addEventListener('click', handleOutsideClick);
+	});
+
+	onDestroy(() => {
+		document.removeEventListener('click', handleOutsideClick);
+	});
 </script>
 
 <div
@@ -11,7 +26,7 @@
 	transition:slide={{ duration: 150 }}
 >
 	<div
-		class="flex cursor-pointer flex-row items-center gap-2"
+		class="relative flex cursor-pointer flex-row items-center gap-2"
 		onclick={(e) => completeTask(task.id)}
 		onkeydown={(e) => e.key === 'Enter' && completeTask(task.id)}
 		role="button"
@@ -20,7 +35,7 @@
 	>
 		<input
 			type="checkbox"
-			onclick={() => completeTask(task.id)}
+			onchange={() => completeTask(task.id)}
 			class="h-3 w-3 shrink-0 cursor-pointer rounded-full
 			border
          	transition-all duration-200"
@@ -35,6 +50,50 @@
 		>
 			{task.title}
 		</h3>
+		<button
+			type="button"
+			onclick={(e) => {
+				e.stopPropagation();
+				menuOpen = !menuOpen;
+			}}
+			class="shrink-0 text-lg
+         text-flo-faint transition-colors duration-150
+         hover:text-flo-muted"
+		>
+			<MoreHorizontal size={18} />
+		</button>
+		{#if menuOpen}
+			<div
+				class="absolute top-8 right-0 z-10 min-w-30
+            overflow-hidden rounded-lg border
+            border-border-soft bg-bg-base"
+			>
+				<!-- Edit task button -->
+				<button
+					onclick={(e) => {
+						e.stopPropagation();
+					}}
+					class="w-full px-4 py-2 text-left text-sm
+           text-flo-primary transition-colors
+           duration-150 hover:bg-bg-subtle"
+				>
+					Edit
+				</button>
+				<!-- Delete task button -->
+				<button
+					onclick={(e) => {
+						e.stopPropagation();
+						deleteTask(task.id);
+					}}
+					class="w-full border-t border-border-soft px-4 py-2
+           text-left text-sm
+           text-danger transition-colors
+           duration-150 hover:bg-bg-subtle"
+				>
+					Delete
+				</button>
+			</div>
+		{/if}
 	</div>
 
 	{#if task.description}

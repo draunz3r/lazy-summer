@@ -3,6 +3,7 @@
 	import { addTask } from '$lib/store/tasks';
 	import { tagsStore, addTag } from '$lib/store/tags';
 	import { slide } from 'svelte/transition';
+	import { ChevronDown, ChevronUp, Plus } from 'lucide-svelte';
 
 	const dateChips = [
 		{ label: 'Today', getValue: () => new Date() },
@@ -56,7 +57,7 @@
 		addTask(title, description, dueDate, selectedTags);
 		title = '';
 		description = '';
-		dueDate = null;
+
 		selectedChip = null;
 	}}
 	class="mt-6 flex flex-col gap-3"
@@ -80,7 +81,11 @@
            placeholder:text-flo-faint"
 		/>
 		<button type="button" onclick={() => (isExpanded = !isExpanded)}>
-			{isExpanded ? '↑' : '↓'}
+			{#if isExpanded}
+				<ChevronUp size={18} />
+			{:else}
+				<ChevronDown size={18} />
+			{/if}
 		</button>
 	</div>
 	<!-- Tag related fields -->
@@ -112,7 +117,11 @@
 			onclick={(e) => {
 				e.preventDefault();
 				addingTag = true;
-			}}>+ Add Tag</button
+			}}
+		>
+			<span class="flex flex-row items-center justify-center"
+				><Plus size={14} />Add Tag
+			</span></button
 		>
 		{#if addingTag}
 			<small
@@ -182,7 +191,9 @@
 			class="w-full rounded-lg bg-accent-strong
            py-[12px] text-sm font-medium
            text-white transition-colors duration-200
-           hover:opacity-90">Add Task</button
+           hover:opacity-90"
+			><span class="flex flex-row items-center justify-center"><Plus size={18} />Add Task</span
+			></button
 		>
 	{/if}
 </form>
