@@ -1,3 +1,7 @@
+<script>
+	import { Home } from 'lucide-svelte';
+</script>
+
 <div class="flex h-full w-full flex-col items-center gap-4">
 	<div class="flex w-full items-center justify-center pt-4">
 		<div
@@ -12,7 +16,7 @@
 			class="flex h-full flex-col items-center justify-center
             gap-4 px-2 py-2 text-sm"
 		>
-			<!-- <li>Home</li> -->
+			<li><Home /></li>
 			<!-- <li>About</li>
 			<li>Contact</li> -->
 		</ul>

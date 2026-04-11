@@ -1,9 +1,11 @@
 <script>
 	import { activeTab } from '$lib/store/navigation';
+	import { CheckSquare, BarChart2 } from 'lucide-svelte';
+	import { Home } from 'lucide-svelte';
 	const tabs = [
-		{ id: 'today', label: 'Today' },
-		{ id: 'completed', label: 'Completed' },
-		{ id: 'analytics', label: 'Analytics' }
+		{ id: 'today', label: 'Today', icon: Home },
+		{ id: 'completed', label: 'Done', icon: CheckSquare },
+		{ id: 'analytics', label: 'Insights', icon: BarChart2 }
 	];
 </script>
 
@@ -15,12 +17,13 @@
 	{#each tabs as tab (tab.id)}
 		<button
 			onclick={() => activeTab.set(tab.id)}
-			class="rounded-xl px-4 py-1
+			class="flex flex-col items-center gap-1 rounded-xl px-4 py-1
              {$activeTab === tab.id
 				? 'bg-bg-surface font-medium text-flo-primary'
 				: 'text-flo-muted'}"
 		>
-			{tab.label}
+			<tab.icon size={20} />
+			<span class="text-micro font-medium">{tab.label}</span>
 		</button>
 	{/each}
 </div>
