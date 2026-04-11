@@ -1,5 +1,6 @@
 <script>
 	import { completeTask } from '$lib/store/tasks';
+	import { slide } from 'svelte/transition';
 	let { task } = $props();
 </script>
 
@@ -7,12 +8,20 @@
 	class="mb-2 flex flex-col
             gap-2 rounded border border-border-soft p-4
 			{task.completed ? 'bg-bg-subtle' : 'bg-bg-surface'}"
+	transition:slide={{ duration: 150 }}
 >
-	<div class="flex flex-row items-center gap-2">
+	<div
+		class="flex cursor-pointer flex-row items-center gap-2"
+		onclick={(e) => completeTask(task.id)}
+		onkeydown={(e) => e.key === 'Enter' && completeTask(task.id)}
+		role="button"
+		aria-pressed="false"
+		tabindex="0"
+	>
 		<input
 			type="checkbox"
 			onclick={() => completeTask(task.id)}
-			class="h-3 w-3 flex-shrink-0 cursor-pointer rounded-full
+			class="h-3 w-3 shrink-0 cursor-pointer rounded-full
 			border
          	transition-all duration-200"
 			style="accent-color: var(--color-accent-strong);"
