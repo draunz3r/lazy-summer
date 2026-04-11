@@ -36,6 +36,9 @@ export const completeTask = (id: String) => {
 	);
 };
 
+export const deleteTask = (id: String) => {
+	tasks.update(all => all.filter(task => task.id !== id));
+};
 
 if (typeof localStorage !== 'undefined') {
 	tasks.subscribe((value) => {
