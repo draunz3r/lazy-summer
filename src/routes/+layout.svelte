@@ -3,6 +3,9 @@
 	import favicon from '$lib/assets/favicon.svg';
 	import { device } from '$lib/store/layout';
 
+	import Nav from '$lib/components/Nav.svelte';
+	import CompletedStack from '$lib/components/CompletedStack.svelte';
+
 	let { children } = $props();
 </script>
 
@@ -14,7 +17,7 @@
 >
 	{#if $device !== 'phone'}
 		<nav class="min-h-[100svh] border-r border-border-soft bg-bg-surface">
-			<!-- NavRail comes later -->
+			<Nav />
 		</nav>
 	{/if}
 
@@ -23,8 +26,8 @@
 	</main>
 
 	{#if $device === 'desktop'}
-		<aside class="border-l border-border-soft p-6">
-			<p class="text-sm text-flo-muted">Insights coming in Layer 3.</p>
+		<aside class="w-auto p-6">
+			<CompletedStack />
 		</aside>
 	{/if}
 </div>
