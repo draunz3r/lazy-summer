@@ -16,7 +16,9 @@
 <button
 	type="button"
 	class="relative h-16 w-100 cursor-pointer"
-	onclick={() => (stackState = stackState === 'collapsed' ? 'expanded' : 'collapsed')}
+	// onclick={() => (stackState = stackState === 'collapsed' ? 'expanded' : 'collapsed')}
+	onmouseenter={() => (stackState = 'expanded')}
+	onmouseleave={() => (stackState = 'collapsed')}
 >
 	<!-- back cards — decorative depth -->
 	{#if stackState === 'collapsed' && completedTasks.length > 0}
@@ -47,13 +49,17 @@
 				class="absolute inset-x-0 top-full mt-0 h-auto overflow-y-auto rounded-lg p-2"
 				transition:slide={{ duration: 250 }}
 			>
-				{#each completedVisible as task (task.id)}
-					<TaskItem {task} />
-				{/each}
-				{#if completedHiddenCount > 0}
-					<p class="text-xs text-flo-muted">
-						{completedHiddenCount} more completed tasks
-					</p>
+				{#if completedTasks.length === 0}
+					<p class="text-sm text-flo-muted">No completed tasks yet.</p>
+				{:else}
+					{#each completedVisible as task (task.id)}
+						<TaskItem {task} />
+					{/each}
+					{#if completedHiddenCount > 0}
+						<p class="text-xs text-flo-muted">
+							{completedHiddenCount} more completed tasks
+						</p>
+					{/if}
 				{/if}
 			</div>
 		{/if}
