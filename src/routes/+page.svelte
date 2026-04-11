@@ -3,7 +3,9 @@
 	import AddTask from '$lib/components/AddTask.svelte';
 	import TaskItem from '$lib/components/TaskItem.svelte';
 	import { tasks } from '$lib/store/tasks';
-	import { slide } from 'svelte/transition';
+	import { fade, slide } from 'svelte/transition';
+	import { device } from '$lib/store/layout';
+	import { activeTab } from '$lib/store/navigation';
 
 	function getGreeting() {
 		const hour = new Date().getHours();
@@ -36,17 +38,28 @@
 	let hiddenCount = $derived(Math.max(0, activeTasks.length - 5));
 </script>
 
-<div class="px-5 pt-10">
+<div class="px-5 pt-4 lg:pt-10">
 	<Greeting {greeting} subTitle={subtitle} />
 
-	<!-- Active Tasks -->
-	{#each visibleTasks as task (task.id)}
-		<TaskItem {task} />
-	{/each}
-	{#if hiddenCount > 0}
-		<p class="mt-2 px-1 text-xs text-flo-muted">
-			+ {hiddenCount} more
-		</p>
+	{#if $activeTab === 'today' || $device !== 'phone'}
+		<div in:fade={{ duration: 150, delay: 150 }} out:fade={{ duration: 150 }}>
+			{#each visibleTasks as task (task.id)}
+				<TaskItem {task} />
+			{/each}
+			{#if hiddenCount > 0}
+				<p class="mt-2 px-1 text-xs text-flo-muted">+ {hiddenCount} more</p>
+			{/if}
+			<AddTask />
+		</div>
+	{:else if $activeTab === 'completed'}
+		<div in:fade={{ duration: 150, delay: 150 }} out:fade={{ duration: 150 }}>
+			{#each completedTasks as task (task.id)}
+				<TaskItem {task} />
+			{/each}
+		</div>
+	{:else if $activeTab === 'analytics'}
+		<div in:fade={{ duration: 150, delay: 150 }} out:fade={{ duration: 150 }}>
+			<p class="text-sm text-flo-muted">Analytics coming in Layer 3.</p>
+		</div>
 	{/if}
-	<AddTask />
 </div>
