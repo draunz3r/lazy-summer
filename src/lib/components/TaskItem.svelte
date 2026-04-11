@@ -22,13 +22,27 @@
 		<h3
 			class="line-clamp-1 font-display text-lg text-flo-primary
 			{task.completed ? 'text-flo-muted line-through' : ''}"
+			title={task.title}
 		>
 			{task.title}
 		</h3>
 	</div>
 
 	{#if task.description}
-		<p class="text-sm text-flo-body">{task.description}</p>
+		<div class="group relative">
+			<p class="line-clamp-2 text-sm text-flo-body">
+				{task.description}
+			</p>
+			<div
+				class="absolute top-full left-0 z-10 mt-1
+              hidden
+              w-48 rounded-md
+              bg-flo-primary px-2 py-1 text-xs
+              text-white group-hover:block"
+			>
+				{task.description}
+			</div>
+		</div>
 	{/if}
 
 	<!-- Tags row -->
