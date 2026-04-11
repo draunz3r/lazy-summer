@@ -2,7 +2,7 @@
 	import { completeTask, deleteTask } from '$lib/store/tasks';
 	import { slide } from 'svelte/transition';
 	import { onMount, onDestroy } from 'svelte';
-	import { MoreHorizontal } from 'lucide-svelte';
+	import { ChevronRight, MoreHorizontal } from 'lucide-svelte';
 	let { task } = $props();
 	let menuOpen = $state(false);
 
@@ -56,62 +56,14 @@
 				e.stopPropagation();
 				menuOpen = !menuOpen;
 			}}
-			class="shrink-0 text-lg
-         text-flo-faint transition-colors duration-150
-         hover:text-flo-muted"
+			class="ml-auto
+			shrink-0
+		 text-flo-faint transition-colors duration-150
+		 hover:text-flo-muted"
 		>
-			<MoreHorizontal size={18} />
+			<ChevronRight size={18} />
 		</button>
-		{#if menuOpen}
-			<div
-				class="absolute top-8 right-0 z-10 min-w-30
-            overflow-hidden rounded-lg border
-            border-border-soft bg-bg-base"
-			>
-				<!-- Edit task button -->
-				<button
-					onclick={(e) => {
-						e.stopPropagation();
-					}}
-					class="w-full px-4 py-2 text-left text-sm
-           text-flo-primary transition-colors
-           duration-150 hover:bg-bg-subtle"
-				>
-					Edit
-				</button>
-				<!-- Delete task button -->
-				<button
-					onclick={(e) => {
-						e.stopPropagation();
-						deleteTask(task.id);
-					}}
-					class="w-full border-t border-border-soft px-4 py-2
-           text-left text-sm
-           text-danger transition-colors
-           duration-150 hover:bg-bg-subtle"
-				>
-					Delete
-				</button>
-			</div>
-		{/if}
 	</div>
-
-	{#if task.description}
-		<div class="group relative">
-			<p class="line-clamp-2 text-sm text-flo-body">
-				{task.description}
-			</p>
-			<div
-				class="absolute top-full left-0 z-10 mt-1
-              hidden
-              w-48 rounded-md
-              bg-flo-primary px-2 py-1 text-xs
-              text-white group-hover:block"
-			>
-				{task.description}
-			</div>
-		</div>
-	{/if}
 
 	<!-- Tags row -->
 	{#if task.tags?.length > 0}
@@ -132,11 +84,6 @@
 			<small class="font-mono text-xs text-flo-faint">
 				{task.dueDate && new Date(task.dueDate).toDateString()}
 			</small>
-			<!-- {#each task.tags as tag (tag)}
-				<span class="rounded bg-bg-subtle px-1 text-xs text-flo-muted">
-					{tag}
-				</span>
-			{/each} -->
 		</div>
 	</div>
 </div>
