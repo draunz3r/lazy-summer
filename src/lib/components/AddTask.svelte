@@ -87,6 +87,7 @@
 	<div>
 		{#each $tagsStore as tag (tag)}
 			<button
+				type="button"
 				class="mt-2 mr-2 rounded px-2 py-1
 							font-mono text-sm text-flo-primary
 							transition-colors duration-200
@@ -102,6 +103,7 @@
 			>
 		{/each}
 		<button
+			type="button"
 			tabindex="-1"
 			disabled={addingTag}
 			class="ml-2 rounded px-2 py-1
