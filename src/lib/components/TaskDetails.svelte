@@ -1,10 +1,19 @@
 <script>
+	import { slide } from 'svelte/transition';
 	import { ArrowDownToLine, Delete, Trash, X } from 'lucide-svelte';
 	import { deleteTask, updateTask } from '$lib/store/tasks';
+	import Tags from './utils/Tags.svelte';
 	let { task, onClose } = $props();
-	let draftTitle = $state(task.title);
-	let draftDescription = $state(task.description ?? '');
-	let dueDate = $state(task.dueDate ? new Date(task.dueDate).toISOString().split('T')[0] : '');
+	let draftTitle = $derived(task.title);
+	let draftDescription = $derived(task.description ?? '');
+	let dueDate = $derived(task.dueDate ? new Date(task.dueDate).toISOString().split('T')[0] : '');
+	let selectedTags = $derived(task.tags ?? []);
+
+	const addTagsToTask = (/** @type {string} */ tag) => {
+		if (selectedTags.includes(tag))
+			selectedTags = selectedTags.filter((/** @type {string} */ t) => t !== tag);
+		else selectedTags = [...selectedTags, tag];
+	};
 </script>
 
 <div
@@ -64,12 +73,14 @@
 				/>
 			</div>
 			<div id="task-tags">
-				{#if task.tags?.length > 0}
+				<!-- {#if task.tags?.length > 0}
 					{#each task.tags as tag (tag)}
 						<span class="rounded bg-bg-subtle px-2 py-0.5 text-xs text-flo-muted">{tag}</span>
 					{/each}
-				{/if}
+				{/if} -->
+				<Tags {selectedTags} {addTagsToTask} />
 			</div>
+			<div></div>
 			<div class="flex w-full flex-row items-center justify-between">
 				<button
 					id="task-delete-button"
@@ -88,8 +99,10 @@
 						updateTask(task.id, {
 							title: draftTitle,
 							description: draftDescription,
-							dueDate: dueDate ? new Date(dueDate) : null
+							dueDate: dueDate ? new Date(dueDate) : null,
+							tags: selectedTags
 						});
+						onClose();
 					}}
 					><ArrowDownToLine size={18} />
 				</button>
