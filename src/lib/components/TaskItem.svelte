@@ -1,22 +1,10 @@
 <script>
-	import { completeTask, deleteTask } from '$lib/store/tasks';
+	import { completeTask } from '$lib/store/tasks';
 	import { slide } from 'svelte/transition';
-	import { onMount, onDestroy } from 'svelte';
-	import { ChevronRight, MoreHorizontal } from 'lucide-svelte';
+	import { ChevronRight } from 'lucide-svelte';
+	import TaskDetails from './TaskDetails.svelte';
 	let { task } = $props();
-	let menuOpen = $state(false);
-
-	function handleOutsideClick() {
-		if (menuOpen) menuOpen = false;
-	}
-
-	onMount(() => {
-		document.addEventListener('click', handleOutsideClick);
-	});
-
-	onDestroy(() => {
-		document.removeEventListener('click', handleOutsideClick);
-	});
+	let detailOpen = $state(false);
 </script>
 
 <div
@@ -54,7 +42,7 @@
 			type="button"
 			onclick={(e) => {
 				e.stopPropagation();
-				menuOpen = !menuOpen;
+				detailOpen = !detailOpen;
 			}}
 			class="ml-auto
 			shrink-0
@@ -80,10 +68,16 @@
 	{/if}
 
 	<div class="flex items-center justify-between gap-2">
-		<div class="flex items-center gap-2">
-			<small class="font-mono text-xs text-flo-faint">
-				{task.dueDate && new Date(task.dueDate).toDateString()}
-			</small>
-		</div>
+		{#if task.dueDate}
+			<div class="flex items-center gap-2">
+				<small class="font-mono text-xs text-flo-faint">
+					{new Date(task.dueDate).toDateString()}
+				</small>
+			</div>
+		{/if}
 	</div>
+
+	{#if detailOpen}
+		<TaskDetails {task} onClose={() => (detailOpen = false)} />
+	{/if}
 </div>
