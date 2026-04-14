@@ -40,6 +40,17 @@ export const deleteTask = (id: String) => {
 	tasks.update(all => all.filter(task => task.id !== id));
 };
 
+export const updateTask = (id: String, updates: Partial<{ title: String; description: String; dueDate: Date | null; tags: Array<string> }>) => {
+	tasks.update(all =>
+		all.map(task =>
+			task.id === id
+				? { ...task, ...updates }
+				: task
+		)
+	);
+};
+
+
 if (typeof localStorage !== 'undefined') {
 	tasks.subscribe((value) => {
 		localStorage.setItem('flo_tasks', JSON.stringify(value));
