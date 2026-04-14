@@ -4,6 +4,7 @@
 	import { tagsStore, addTag } from '$lib/store/tags';
 	import { slide } from 'svelte/transition';
 	import { ChevronDown, ChevronUp, Plus } from 'lucide-svelte';
+	import Tags from './utils/Tags.svelte';
 
 	const dateChips = [
 		{ label: 'Today', getValue: () => new Date() },
@@ -47,8 +48,10 @@
 
 	// Tag specific config
 	let selectedTags = $state(/** @type {string[]} */ ([]));
-	let addingTag = $state(false);
-	let newTagName = $state('');
+	const addTagsToTask = (/** @type {string} */ tag) => {
+		if (selectedTags.includes(tag)) selectedTags = selectedTags.filter((t) => t !== tag);
+		else selectedTags = [...selectedTags, tag];
+	};
 </script>
 
 <form
@@ -59,6 +62,7 @@
 		description = '';
 
 		selectedChip = null;
+		selectedTags = [];
 	}}
 	class="mt-6 flex flex-col gap-3"
 >
@@ -76,7 +80,7 @@
 			onkeydown={(e) => {
 				if (e.key === 'Enter' && isExpanded) e.preventDefault();
 			}}
-			class="w-full bg-transparent px-[16px] py-[12px]
+			class="w-full bg-transparent px-4 py-3
            text-flo-primary outline-none
            placeholder:text-flo-faint"
 		/>
@@ -90,64 +94,7 @@
 	</div>
 	<!-- Tag related fields -->
 	<div>
-		{#each $tagsStore as tag (tag)}
-			<button
-				type="button"
-				class="mt-2 mr-2 rounded px-2 py-1
-							font-mono text-sm text-flo-primary
-							transition-colors duration-200
-							{selectedTags.includes(tag) ? 'bg-accent-strong text-white' : 'hover:bg-bg-subtle'}"
-				onclick={(e) => {
-					e.preventDefault();
-					if (selectedTags.includes(tag)) {
-						selectedTags = selectedTags.filter((t) => t !== tag);
-					} else {
-						selectedTags = [...selectedTags, tag];
-					}
-				}}>{tag}</button
-			>
-		{/each}
-		<button
-			type="button"
-			tabindex="-1"
-			disabled={addingTag}
-			class="ml-2 rounded px-2 py-1
-			font-mono text-sm text-flo-primary
-			 {addingTag ? 'bg-accent-strong text-white' : 'border border-border-soft hover:bg-bg-subtle'}"
-			onclick={(e) => {
-				e.preventDefault();
-				addingTag = true;
-			}}
-		>
-			<span class="flex flex-row items-center justify-center"
-				><Plus size={14} />Add Tag
-			</span></button
-		>
-		{#if addingTag}
-			<small
-				><input
-					type="text"
-					placeholder="Add tag..."
-					bind:value={newTagName}
-					class="mt-3 bg-bg-surface px-1 py-1 text-xs
-           					text-flo-primary outline-none placeholder:text-flo-faint"
-					onkeydown={(e) => {
-						if (e.key === 'Enter') {
-							e.preventDefault();
-							if (newTagName.trim() !== '') {
-								addTag(newTagName);
-								selectedTags = [...selectedTags, newTagName];
-								newTagName = '';
-								addingTag = false;
-							}
-						} else if (e.key === 'Escape') {
-							addingTag = false;
-							newTagName = '';
-						}
-					}}
-				/></small
-			>
-		{/if}
+		<Tags {selectedTags} {addTagsToTask} />
 	</div>
 	{#if isExpanded}
 		<div
@@ -160,7 +107,7 @@
 				placeholder="Description"
 				bind:value={description}
 				class="w-full resize-none bg-transparent
-             px-[16px] py-[12px]
+             px-4 py-3
              font-display text-flo-primary
              outline-none placeholder:text-flo-faint"
 			></textarea>
