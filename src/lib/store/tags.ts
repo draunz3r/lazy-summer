@@ -22,7 +22,8 @@ export const addTag = (tag: string) => {
     if (!tag) throw new Error('Tag cannot be empty');
     tagsStore.update(all => {
         if (all.includes(tag)) {
-            throw new Error('Tag already exists');
+            console.log('Tag already exists');
+            return all;
         }
         return [...all, tag];
     });
