@@ -13,41 +13,43 @@
 			{task.completed ? 'bg-bg-subtle' : 'bg-bg-surface'}"
 	transition:slide={{ duration: 150 }}
 >
-	<div
-		class="relative flex cursor-pointer flex-row items-center gap-2"
-		onclick={(e) => completeTask(task.id)}
-		onkeydown={(e) => e.key === 'Enter' && completeTask(task.id)}
-		role="button"
-		aria-pressed="false"
-		tabindex="0"
-	>
-		<input
-			type="checkbox"
-			onchange={() => completeTask(task.id)}
-			class="h-3 w-3 shrink-0 cursor-pointer rounded-full
+	<div class="flex flex-row justify-between">
+		<div
+			class="relative flex cursor-pointer flex-row items-center gap-2"
+			onclick={(e) => completeTask(task.id)}
+			onkeydown={(e) => e.key === 'Enter' && completeTask(task.id)}
+			role="button"
+			aria-pressed="false"
+			tabindex="0"
+		>
+			<input
+				type="checkbox"
+				onchange={() => completeTask(task.id)}
+				class="h-3 w-3 shrink-0 cursor-pointer rounded-full
 			border
          	transition-all duration-200"
-			style="accent-color: var(--color-accent-strong);"
-			checked={task.completed}
-		/>
+				style="accent-color: var(--color-accent-strong);"
+				checked={task.completed}
+			/>
 
-		<h3
-			class="line-clamp-1 font-display text-lg text-flo-primary
+			<h3
+				class="line-clamp-1 font-display text-lg text-flo-primary
 			{task.completed ? 'text-flo-muted line-through' : ''}"
-			title={task.title}
-		>
-			{task.title}
-		</h3>
+				title={task.title}
+			>
+				{task.title}
+			</h3>
+		</div>
 		<button
 			type="button"
 			onclick={(e) => {
 				e.stopPropagation();
 				detailOpen = !detailOpen;
 			}}
-			class="ml-auto
-			shrink-0
-		 text-flo-faint transition-colors duration-150
-		 hover:text-flo-muted"
+			class="ml-4 shrink-0 rounded-full p-1
+         text-flo-faint transition-all duration-200
+         hover:scale-110 hover:bg-bg-subtle
+         hover:text-flo-muted active:scale-95"
 		>
 			<ChevronRight size={18} />
 		</button>
@@ -55,7 +57,7 @@
 
 	<!-- Tags row -->
 	{#if task.tags?.length > 0}
-		<div class="flex flex-wrap gap-1">
+		<div class="line-clamp-2 flex h-fit flex-wrap gap-1">
 			{#each task.tags as tag (tag)}
 				<span
 					class="rounded bg-bg-subtle px-2 py-0.5
