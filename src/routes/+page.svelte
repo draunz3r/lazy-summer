@@ -20,7 +20,10 @@
 	let greeting = getGreeting();
 
 	let activeTasks = $derived.by(() =>
-		$tasks.filter((/** @type {{ completed: any; }} */ task) => !task.completed)
+		$tasks.filter(
+			(/** @type {{ completed: any; }} */ task) =>
+				!task.completed && (!task.dueDate || new Date(task.dueDate) <= new Date())
+		)
 	);
 	let completedTasks = $derived.by(() =>
 		$tasks.filter((/** @type {{ completed: any; }} */ task) => task.completed)
