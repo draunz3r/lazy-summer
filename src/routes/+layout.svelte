@@ -2,29 +2,11 @@
 	import './layout.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import { device } from '$lib/store/layout';
-	import { activeTab } from '$lib/store/navigation';
-
 	import Nav from '$lib/components/Nav.svelte';
-	import CompletedStack from '$lib/components/CompletedStack.svelte';
 	import BottomNav from '$lib/components/mobile/BottomNav.svelte';
-	import { tasks } from '$lib/store/tasks';
-	import TaskItem from '$lib/components/TaskItem.svelte';
+	import InsightPanel from '$lib/components/InsightPanel.svelte';
 
 	let { children } = $props();
-
-	let upcomingTasks = $derived.by(() =>
-		$tasks
-			.filter(
-				(/** @type {{ completed: any; dueDate: string | number | Date; }} */ task) =>
-					!task.completed && task.dueDate && new Date(task.dueDate) > new Date()
-			)
-			.sort(
-				(
-					/** @type {{ dueDate: string | number | Date; }} */ a,
-					/** @type {{ dueDate: string | number | Date; }} */ b
-				) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
-			)
-	);
 </script>
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
@@ -61,18 +43,6 @@
 		<BottomNav />
 	{/if}
 	{#if $device === 'desktop'}
-		<aside class="w-auto p-6">
-			<CompletedStack />
-			{#if upcomingTasks.length > 0}
-				<div class="mt-8 w-5/12">
-					<h2 class="mb-4 text-sm font-medium text-flo-muted uppercase">Upcoming tasks</h2>
-					<ul class="flex flex-col gap-3">
-						{#each upcomingTasks as task (task.id)}
-							<TaskItem {task} />
-						{/each}
-					</ul>
-				</div>
-			{/if}
-		</aside>
+		<InsightPanel />
 	{/if}
 </div>

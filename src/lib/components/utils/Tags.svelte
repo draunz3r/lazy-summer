@@ -4,7 +4,7 @@
 	import { cubicOut } from 'svelte/easing';
 	import { slide } from 'svelte/transition';
 
-	let { selectedTags, addTagsToTask } = $props();
+	let { selectedTags, toggleTags } = $props();
 	let availableTags = $derived(tagsStore);
 	let addingTag = $state(false);
 	let newTagName = $state('');
@@ -72,7 +72,7 @@
 			transition:slide={{ duration: 800, axis: 'x', easing: cubicOut }}
 			onclick={(e) => {
 				e.preventDefault();
-				addTagsToTask(tag);
+				toggleTags(tag);
 			}}>{tag}</button
 		>
 	{/each}
