@@ -1,7 +1,7 @@
 <script>
 	import { tasks } from '$lib/store/tasks';
 	import { slide } from 'svelte/transition';
-	import TaskItem from './TaskItem.svelte';
+	import TaskItem from '../TaskItem.svelte';
 
 	let stackState = $state('collapsed');
 	let searchQuery = $state('');
