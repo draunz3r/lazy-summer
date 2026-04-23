@@ -12,14 +12,12 @@
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
 <div
 	class="grid min-h-svh
-			grid-cols-1
-            grid-rows-[auto_1fr]
-            bg-bg-base
-			font-body
-			sm:grid-cols-[64px_1fr]
-			sm:grid-rows-1
-			lg:grid-cols-[64px_320px_1fr]
-			"
+            grid-cols-1
+            grid-rows-[auto_1fr_auto]
+            bg-bg-base font-body
+            sm:grid-cols-[64px_1fr]
+            sm:grid-rows-1
+            lg:grid-cols-[64px_320px_1fr]"
 >
 	{#if $device !== 'phone'}
 		<nav class="min-h-svh border-r border-border-soft bg-bg-surface">
@@ -36,7 +34,7 @@
 		</div>
 	{/if}
 
-	<main>
+	<main class="min-h-0 overflow-y-auto">
 		{@render children()}
 	</main>
 	{#if $device === 'phone'}
