@@ -70,4 +70,23 @@
 		color: var(--color-flo-primary);
 		-webkit-font-smoothing: antialiased;
 	}
+
+	::-webkit-scrollbar {
+		width: 4px;
+		height: 4px;
+	}
+
+	::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	::-webkit-scrollbar-thumb {
+		background: var(--color-border-medium);
+		border-radius: 9999px;
+		transition: background 0.3s ease;
+	}
+
+	::-webkit-scrollbar-thumb:hover {
+		background: var(--color-accent);
+	}
 }

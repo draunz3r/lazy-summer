@@ -41,18 +41,25 @@
 	let hiddenCount = $derived(Math.max(0, activeTasks.length - 5));
 </script>
 
-<div class="px-5 pt-4 lg:pt-10">
+<div class="flex h-[100svh] flex-col px-5 pt-4 lg:pt-10">
 	<Greeting {greeting} subTitle={subtitle} />
 
 	{#if $activeTab === 'today' || $device !== 'phone'}
-		<div in:fade={{ duration: 150, delay: 150 }} out:fade={{ duration: 150 }}>
+		<!-- scrollable task list -->
+		<div
+			class="min-h-0 flex-1 overflow-y-auto"
+			in:fade={{ duration: 150, delay: 150 }}
+			out:fade={{ duration: 150 }}
+		>
 			{#each visibleTasks as task (task.id)}
 				<TaskItem {task} />
 			{/each}
 			{#if hiddenCount > 0}
 				<p class="mt-2 px-1 text-xs text-flo-muted">+ {hiddenCount} more</p>
 			{/if}
-			<AddTask />
+			<div class="border-t border-border-soft pt-2 pb-4">
+				<AddTask />
+			</div>
 		</div>
 	{:else if $activeTab === 'completed'}
 		<div in:fade={{ duration: 150, delay: 150 }} out:fade={{ duration: 150 }}>
