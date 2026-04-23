@@ -11,7 +11,7 @@
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
 <div
-	class="grid min-h-svh
+	class="grid h-svh
             grid-cols-1
             grid-rows-[auto_1fr_auto]
             bg-bg-base font-body
