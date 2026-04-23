@@ -6,7 +6,7 @@
 	let { task } = $props();
 	let detailOpen = $state(false);
 
-	function toggleComplete() {
+	function toggleComplete(/** @type {String} */ id) {
 		completeTask(task.id);
 	}
 </script>
@@ -21,7 +21,7 @@
 		<label class="flex min-w-0 flex-1 cursor-pointer items-center gap-2">
 			<input
 				type="checkbox"
-				onchange={() => completeTask(task.id)}
+				onchange={() => toggleComplete(task.id)}
 				class="h-3 w-3 shrink-0 cursor-pointer rounded-full
            border transition-all duration-200"
 				style="accent-color: var(--color-accent-strong);"

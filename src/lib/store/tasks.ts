@@ -12,7 +12,7 @@ const initial = saved ? JSON.parse(saved) : [];
 
 export const tasks = writable(initial);
 
-export const addTask = (title = '', description = '', dueDate: Date | null = null, tags: Array<string> = []) => {
+export const addTask = (title = '', description = '', dueDate: Date | null = null, tags: Array<string> = [], completionNote: null) => {
 	const id = crypto.randomUUID();
 
 	if (!title) {
@@ -22,15 +22,18 @@ export const addTask = (title = '', description = '', dueDate: Date | null = nul
 
 	tasks.update((current) => [
 		...current,
-		{ id, title, description, dueDate, tags, completed: false, createdAt: new Date().toISOString() }
+		{ id, title, description, dueDate, tags, completed: false, createdAt: new Date().toISOString(), completionNote }
 	]);
 };
 
-export const completeTask = (id: String) => {
+export const completeTask = (id: String, note = '') => {
 	tasks.update(all =>
 		all.map(task =>
 			task.id === id
-				? { ...task, completed: !task.completed }
+				? {
+					...task, completed: !task.completed, completedAt: !task.completed ? new Date().toISOString() : null,
+					completionNote: !task.completed ? note : null
+				}
 				: task
 		)
 	);
